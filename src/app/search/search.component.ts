@@ -1,5 +1,7 @@
 import { Component, Input, EventEmitter } from '@angular/core';
 
+import { EsriLoaderService } from 'angular2-esri-loader';
+
 export class Search  {
   constructor(){};
   public tude(longitude: any, latitude: any): string[] {
@@ -21,12 +23,46 @@ export class Search  {
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent {
+  constructor(private esriLoader: EsriLoaderService){}  
   @Input('view')
   view: any;
+  point: any;
+  graphic: any;
+  searchStatus: boolean = true;
   search: any = new Search();
   errorStatus: boolean = true;
   ngOnInit() {
-    this.search.place("初始化");
+    setTimeout(()=>{
+    return this.esriLoader.load({
+          url:'//localhost/arcgis_js_api/library/4.2/init.js'
+        }).then(() => {
+          this.esriLoader.loadModules([
+            "esri/Graphic",
+            "esri/geometry/Point",
+            "esri/symbols/SimpleMarkerSymbol",
+            'dojo/domReady!'
+            ]).then(([
+              Graphic,Point,SimpleMarkerSymbol
+              ])=>{
+                setInterval(()=>{
+                  if(this.searchStatus){
+                    this.point = new Point();
+                    this.graphic = new Graphic({
+                      geometry: this.point,
+                      symbol: markSymbol
+                    });
+                  }
+                },1000);
+                var markSymbol = new SimpleMarkerSymbol({
+                  color: [226, 119, 40],
+                  outline: {
+                    color: [255, 255, 255],
+                    width: 1
+                  }
+                });
+          });
+        })
+    },2000)    
   }
 
   doSearch(arr: any[]): void{
@@ -44,7 +80,11 @@ export class SearchComponent {
         },{
           duration:2500,
           easing:"ease-in"
-        })
+        });
+        this.point.longitude = long;
+        this.point.latitude = lat;
+        this.view.graphics.removeAll();
+        this.view.graphics.add(this.graphic);
       }else{
         this.errorStatus = false;
       }
