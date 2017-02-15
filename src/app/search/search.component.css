@@ -1,8 +1,11 @@
 .search {
     position: absolute;
     bottom: 100px;
-    left: 5px;
+    left: 0px;
     z-index: 10000;
-    width: 400px;
+    width: 300px;
     /*background-color: aqua;*/
+}
+.setWidth{
+    width: 105px !important;
 }

@@ -6,7 +6,6 @@
 </div>
     <input type="text" placeholder="输入地名" #place (keydown.enter)="search.place(place.value)"/>
     <input type="button" (click)="search.place(place.value)" value="地名搜索"/>-->
-
 <div class="search">
     <div [hidden]="errorStatus" class="alert alert-danger" role="alert">
     <strong>输入格式错误!</strong>
@@ -15,11 +14,11 @@
     </div>
     <div class="col-lg-6">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="输入经度" value="103" #lo (keydown.enter)="doSearch([lo.value,la.value])">
-            <input type="text" class="form-control" placeholder="输入纬度" value="30" #la (keydown.enter)="doSearch([lo.value,la.value])">
+            <input type="text" class="form-control setWidth" placeholder="输入经度" value="103" #lo (keydown.enter)="doSearch([lo.value,la.value])">
+            <input type="text" class="form-control setWidth" placeholder="输入纬度" value="30" #la (keydown.enter)="doSearch([lo.value,la.value])">
             <span class="input-group-btn">
             <button class="btn btn-secondary" type="button" (click)="doSearch([lo.value,la.value])">Go!</button>
             </span>
         </div>
-    </div>    
-</div>    
+    </div>
+</div>

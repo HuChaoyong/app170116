@@ -1,3 +1,5 @@
 .lc{
+    position: absolute;
     width:200px;
+    left: 10px;
 }
