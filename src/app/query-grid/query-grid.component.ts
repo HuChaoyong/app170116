@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, Input,
+import { Component, AfterViewInit, OnInit, Output, Input,
           ViewChild, ElementRef } from '@angular/core';
 
 import { EsriLoaderService } from 'angular2-esri-loader';
@@ -21,7 +21,7 @@ import { EsriLoaderService } from 'angular2-esri-loader';
   `,
   styleUrls: ['./query-grid.component.css']
 })
-export class QueryGridComponent  {
+export class QueryGridComponent implements AfterViewInit {
   constructor(private esriLoader: EsriLoaderService){}
   @ViewChild('grid') gridEl: ElementRef;
   @Input('view') view:any;
@@ -43,9 +43,7 @@ export class QueryGridComponent  {
   QueryStatus: boolean = false;
   GridStatus: boolean = false;  
 
-  ngOnInit() {
-    // If loader load directly, this.view will be undefined and get mang errors.
-    setTimeout(()=>{
+  ngAfterViewInit() {
     return this.esriLoader.load({
       url:'//localhost/arcgis_js_api/library/4.2/init.js'
     }).then(() => {
@@ -84,11 +82,7 @@ export class QueryGridComponent  {
         var featureLayer1 = new FeatureLayer({
           url: queryUrl,
           id: "border"
-        });
-/*        var mapServer = new MapImageLayer({
-          url: "https://www.land-info.cn/arcgis/rest/services/Conservation_KLK/SSL_SubArea/MapServer",
-          id: "ssl"
-        });  */      
+        }); 
         this.view.map.addMany([featureLayer1,this.resultsLyr]);
         var lineSymbol = new SimpleLineSymbol({
           color: [226, 119, 40],
@@ -196,7 +190,6 @@ export class QueryGridComponent  {
 
       })
     });
-    },2000);  
   }
 
   addGraphic($event: any):void {

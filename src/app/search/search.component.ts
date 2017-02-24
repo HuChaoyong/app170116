@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter } from '@angular/core';
+import { Component, Input, EventEmitter, AfterViewInit } from '@angular/core';
 
 import { EsriLoaderService } from 'angular2-esri-loader';
 
@@ -22,7 +22,7 @@ export class Search  {
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent {
+export class SearchComponent implements AfterViewInit {
   constructor(private esriLoader: EsriLoaderService){}  
   @Input('view')
   view: any;
@@ -31,8 +31,7 @@ export class SearchComponent {
   searchStatus: boolean = true;
   search: any = new Search();
   errorStatus: boolean = true;
-  ngOnInit() {
-    setTimeout(()=>{
+  ngAfterViewInit() {
     return this.esriLoader.load({
           url:'//localhost/arcgis_js_api/library/4.2/init.js'
         }).then(() => {
@@ -62,7 +61,6 @@ export class SearchComponent {
                 });
           });
         })
-    },2000)    
   }
 
   doSearch(arr: any[]): void{

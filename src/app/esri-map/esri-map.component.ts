@@ -8,6 +8,7 @@ import {
 
 import { EsriLoaderService } from 'angular2-esri-loader';
 
+
 @Component({
   selector: 'app-esri-map',
   template:`
@@ -16,6 +17,8 @@ import { EsriLoaderService } from 'angular2-esri-loader';
   <app-layer-control  [view]="view"></app-layer-control>
   <app-query-grid [view]="view"></app-query-grid>
   <app-print [view]="view"></app-print>
+  <app-basemap [view]="view"></app-basemap>
+  <app-book-mark [view]="view"></app-book-mark>
   `,
   styleUrls: ['./esri-map.component.css'],
 })
@@ -36,25 +39,12 @@ export class EsriMapComponent implements OnInit {
       this.esriLoader.loadModules([
         "esri/Map",
         "esri/views/MapView",
-        "esri/Basemap",
-        "esri/layers/MapImageLayer",
         "esri/widgets/Home",
         'dojo/domReady!'
         ]).then(([
-          Map,MapView,Basemap,MapImageLayer,Home,
+          Map,MapView,Home,
           ])=>{
-          var mapServer = new MapImageLayer({
-                    url: "https://www.land-info.cn/arcgis/rest/services/Conservation_KLK/SSL_SubArea/MapServer",
-                    id: "ssl"
-                  });
-          var customBasemap = new Basemap({
-            baseLayers: [mapServer],
-            title: "Custom Basemap",
-            id: "myBasemap"
-          }) 
-          var map = new Map({
-            basemap: 'hybrid'
-          });
+          var map = new Map();
           this.view = new MapView({
             container: this.mapEl.nativeElement,
             map: map,

@@ -1,9 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, AfterViewInit } from '@angular/core';
 
 import { EsriLoaderService } from 'angular2-esri-loader';
 
-//<input type="button" value="print" (click)="display()">
-//
 @Component({
   selector: 'app-print',
   template:`
@@ -11,15 +9,13 @@ import { EsriLoaderService } from 'angular2-esri-loader';
   `,
   styleUrls: ['./print.component.css']
 })
-export class PrintComponent implements OnInit{
+export class PrintComponent implements AfterViewInit{
   constructor(private esriLoader: EsriLoaderService){}
   @Input('view')
   view: any;
   printStatus: boolean = false;
   print:any;
-  ngOnInit() {
-    // when return work immediately , view is undefined ,so I use setTimeout
-    setTimeout(()=>{
+  ngAfterViewInit() {
     return this.esriLoader.load({
           url:'//localhost/arcgis_js_api/library/4.2/init.js'
         }).then(() => {
@@ -29,13 +25,12 @@ export class PrintComponent implements OnInit{
             ]).then(([
               Print
               ])=>{
-              this.print = new Print({
-                view:this.view,
-                printServiceUrl: "https://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
-              });
+                this.print = new Print({
+                  view:this.view,
+                  printServiceUrl: "https://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+                });
           });
         })
-    },2000)
   }
   display():void {
     if(this.printStatus == false){

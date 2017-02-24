@@ -1,6 +1,6 @@
 .search {
     position: absolute;
-    bottom: 100px;
+    bottom: 5px;
     left: 0px;
     z-index: 10000;
     width: 300px;
